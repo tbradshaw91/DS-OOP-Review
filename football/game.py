@@ -23,8 +23,6 @@ class Game:
     -----------------------------
     winning_team_ : str
         team name
-    losing_team_ : str
-        team name
     '''
 
     def __init__(self, teams=None, location=None, score=None, week=None):
@@ -42,6 +40,46 @@ class Game:
         -----------------------------
         team : str
             team that scored
+	extra_point : int
+	    extra points earned in extra point play
+        '''
+	if team not in self.teams:
+	    raise ValueError('team parameter must be in self.teams')
+	else:
+	    self.score[team] += (6 + extra_point)
+
+    def field_goal(self, team):
+	'''record touchdown for a team
+        Parameters
+        -----------------------------
+	team : str
+	   team that scored
+	'''
+	if team not in self.teams:
+	   raise ValueError('team parameter must be in self.teams')
+	else:
+	   self.score[team] += 3
+
+    def safety(self, TODO):
+	return TODO
+
+    def get_winning_team(self):
+	v = list(self.score.values())
+	k = list(self.score.keys())
+	self.winning_team_ = k[v.index(max(v))]
+
+	return self.winning_team_
+
+    def generate_rand_games(self, n=4):
+	games = []
+	for i in list(range(4)):
+	    game = Game(teams=random.sample(team_names, k=2))
+	    for _ in list(range(4)):
+		game.field_goal(game.teams[0])
+		game.touchdown(game.teams[1])
+	    games.append(game)
+	return games
+
         extra_point : int
             extra points earned in extra point play
         '''
